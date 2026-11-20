@@ -1,0 +1,39 @@
+@import "tailwindcss";
+
+/* Brand tokens — use them as bg-cocoa, text-paprika, font-display, etc. */
+@theme {
+  --color-ivory: #faf0de;
+  --color-ivory-2: #f3e5cc;
+  --color-cream: #fffaf1;
+  --color-ink: #241712;
+  --color-cocoa: #2b1b14;
+  --color-cocoa-2: #3a261c;
+  --color-muted: #6b5445;
+  --color-paprika: #e4572e;
+  --color-paprika-dark: #c43f1c;
+  --color-millet: #f2b705;
+  --color-palm: #3f6b3d;
+  --color-palm-dark: #2f5230;
+
+  --font-display: "Fraunces", Georgia, serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+}
+
+body {
+  @apply bg-ivory text-ink font-sans antialiased;
+}
+
+::selection {
+  @apply bg-millet text-cocoa;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
