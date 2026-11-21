@@ -56,7 +56,7 @@ export default function Footer() {
         </div>
         <div className="mt-16 flex flex-col justify-between gap-2 border-t border-ivory/10 pt-6 text-sm text-ivory/45 sm:flex-row">
           <p>© {new Date().getFullYear()} {SITE.name}. All rights reserved.</p>
-          <p>Made with palm butter & love.</p>
+          <p>Built and designed by NexSolve X.</p>
         </div>
       </div>
     </footer>

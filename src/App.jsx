@@ -2,7 +2,6 @@ import { MotionConfig } from "framer-motion";
 import { OrderProvider } from "./context/OrderContext.jsx";
 import Navbar from "./components/Navbar.jsx";
 import Hero from "./components/Hero.jsx";
-import Marquee from "./components/Marquee.jsx";
 import Menu from "./components/Menu.jsx";
 import FirstTime from "./components/FirstTime.jsx";
 import HowToOrder from "./components/HowToOrder.jsx";
@@ -20,7 +19,6 @@ export default function App() {
         <Navbar />
         <main>
           <Hero />
-          <Marquee />
           <Menu />
           <FirstTime />
           <HowToOrder />

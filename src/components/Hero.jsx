@@ -1,152 +1,103 @@
-import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import { FaWhatsapp } from "react-icons/fa";
-import { FiArrowRight } from "react-icons/fi";
-import { MENU } from "../data/menu.js";
 import { generalMessage, waLink } from "../lib/whatsapp.js";
 
 const ease = [0.22, 0.61, 0.36, 1];
 
-const PHOTOS = [
-  { src: "/images/palm-butter.webp", alt: "Palm butter with crab and meat", className: "left-[6%] top-[4%] w-[52%] -rotate-6 z-20" },
-  { src: "/images/dry-rice.webp", alt: "TopWoman dry rice with fish and chicken", className: "right-[2%] top-[14%] w-[46%] rotate-[5deg] z-10" },
-  { src: "/images/fish-plantain.webp", alt: "Grilled fish with plantain", className: "left-[22%] bottom-[0%] w-[44%] rotate-[3deg] z-30" },
+// The table, seen from above. Each plate is cropped by the edge of the screen,
+// like a real spread. Mobile sizes first, desktop (lg) after.
+const PLATES = [
+  {
+    src: "/images/palm-butter.webp",
+    alt: "Palm butter with crab",
+    rotate: 8,
+    className: "w-[48vw] -right-[14vw] top-[76px] lg:w-[31vw] lg:max-w-[36rem] lg:-right-[5vw] lg:top-[9%]",
+  },
+  {
+    src: "/images/jollof.webp",
+    alt: "Liberian jollof rice",
+    rotate: -10,
+    className: "w-[36vw] -left-[12vw] top-[96px] lg:w-[19vw] lg:max-w-[22rem] lg:-left-[3vw] lg:top-[13%]",
+  },
+  {
+    src: "/images/pepper-soup.webp",
+    alt: "Pepper soup",
+    rotate: 14,
+    className: "w-[40vw] -left-[8vw] -bottom-[8vw] lg:w-[17vw] lg:max-w-[20rem] lg:left-[8vw] lg:-bottom-[6vw]",
+  },
+  {
+    src: "/images/fish-plantain.webp",
+    alt: "Grilled fish with plantain",
+    rotate: -6,
+    className: "w-[46vw] -right-[10vw] -bottom-[12vw] lg:w-[21vw] lg:max-w-[25rem] lg:right-[10vw] lg:-bottom-[8vw]",
+  },
 ];
 
-function Stamp() {
+function Plate({ src, alt, rotate, className, index }) {
   return (
-    <motion.div
-      className="absolute -left-4 bottom-[18%] z-40 grid h-32 w-32 place-items-center rounded-full bg-millet text-cocoa shadow-xl sm:h-36 sm:w-36"
-      initial={{ scale: 0, rotate: -40 }}
-      animate={{ scale: 1, rotate: 0 }}
-      transition={{ delay: 0.9, type: "spring", stiffness: 160, damping: 14 }}
-      aria-hidden="true"
+    <motion.figure
+      className={`absolute aspect-square overflow-hidden rounded-full border-[clamp(6px,0.75vw,12px)] border-ivory bg-ivory shadow-[0_40px_70px_-25px_rgba(0,0,0,0.75)] ${className}`}
+      initial={{ opacity: 0, scale: 1.18, rotate: rotate - 24 }}
+      animate={{ opacity: 1, scale: 1, rotate }}
+      transition={{
+        opacity: { duration: 0.35, delay: 0.15 + index * 0.14 },
+        default: { type: "spring", stiffness: 90, damping: 16, delay: 0.15 + index * 0.14 },
+      }}
     >
-      <motion.svg
-        viewBox="0 0 140 140"
-        className="absolute inset-0 h-full w-full"
-        animate={{ rotate: 360 }}
-        transition={{ repeat: Infinity, duration: 24, ease: "linear" }}
-      >
-        <defs>
-          <path id="stamp-circle" d="M70,70 m-52,0 a52,52 0 1,1 104,0 a52,52 0 1,1 -104,0" />
-        </defs>
-        <text fontSize="11" fontWeight="700" letterSpacing="3" fill="currentColor">
-          <textPath href="#stamp-circle">MONROVIA TO GÖNYELI · EVERY SUNDAY ·</textPath>
-        </text>
-      </motion.svg>
-      <span className="font-display text-3xl font-black">TW</span>
-    </motion.div>
+      <img src={src} alt={alt} className="h-full w-full object-cover" fetchPriority={index === 0 ? "high" : "auto"} />
+    </motion.figure>
   );
 }
 
 export default function Hero() {
-  const ref = useRef(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
-  const photosY = useTransform(scrollYProgress, [0, 1], [0, 120]);
-  const textY = useTransform(scrollYProgress, [0, 1], [0, 60]);
-
   return (
-    <section
-      id="top"
-      ref={ref}
-      className="relative overflow-hidden bg-cocoa pt-28 pb-20 text-ivory sm:pt-32 lg:min-h-[100svh] lg:pb-28"
-    >
-      {/* warm glow */}
-      <div className="pointer-events-none absolute -right-40 -top-40 h-[36rem] w-[36rem] rounded-full bg-paprika/25 blur-3xl" />
-      <div className="pointer-events-none absolute -bottom-52 -left-40 h-[30rem] w-[30rem] rounded-full bg-millet/10 blur-3xl" />
+    <section id="top" className="relative isolate overflow-hidden bg-cocoa text-ivory">
+      {PLATES.map((p, i) => (
+        <Plate key={p.src} index={i} {...p} />
+      ))}
 
-      <div className="relative mx-auto grid max-w-7xl items-center gap-14 px-5 sm:px-8 lg:grid-cols-[1.05fr_1fr]">
-        <motion.div style={{ y: textY }}>
-          <h1 className="font-display text-5xl leading-[0.98] font-black tracking-tight sm:text-6xl xl:text-7xl">
-            {["Liberian food,", "cooked like"].map((line, i) => (
-              <motion.span
-                key={line}
-                className="block"
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.1 + i * 0.12, ease }}
-              >
-                {line}
-              </motion.span>
-            ))}
-            <motion.span
-              className="block font-medium italic text-millet"
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.34, ease }}
-            >
-              home.
-            </motion.span>
-          </h1>
+      <div className="relative z-10 mx-auto flex min-h-[100svh] max-w-[46rem] flex-col items-center justify-center px-5 pt-[calc(48vw+6rem)] pb-[calc(38vw+2rem)] text-center sm:px-8 lg:px-0 lg:py-32">
+        <motion.h1
+          className="font-display text-[clamp(3rem,6.6vw,6.75rem)] leading-[0.95] font-black tracking-[-0.025em] text-balance"
+          style={{ fontVariationSettings: '"SOFT" 60, "opsz" 144' }}
+          initial={{ opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.9, delay: 0.75, ease }}
+        >
+          Liberian food, cooked like home.
+        </motion.h1>
 
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.5, ease }}
-            className="mt-7 max-w-xl text-lg leading-relaxed text-ivory/75"
+        <motion.p
+          className="mt-6 max-w-[32rem] text-lg leading-relaxed text-ivory/80"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8, delay: 1 }}
+        >
+          Tell TopWoman what you're craving, any day of the week, and she'll cook it fresh for you. One
+          spoon and your tongue starts dancing, your belly says thank you, and you're already planning the
+          next plate.
+        </motion.p>
+
+        <motion.div
+          className="mt-9 flex flex-wrap items-center justify-center gap-3"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8, delay: 1.15 }}
+        >
+          <a
+            href={waLink(generalMessage())}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex min-h-13 items-center gap-2.5 rounded-full bg-paprika px-7 py-3.5 font-semibold text-white transition-colors hover:bg-paprika-dark focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-millet"
           >
-            Palm butter, cassava leaf, jollof, pepper soup and more, made from scratch every Sunday. Whether
-            you grew up on it or you're tasting it for the first time, there's a plate here for you.
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.62, ease }}
-            className="mt-9 flex flex-wrap gap-3"
+            <FaWhatsapp className="text-xl" aria-hidden="true" /> Order on WhatsApp
+          </a>
+          <a
+            href="#menu"
+            className="inline-flex min-h-13 items-center rounded-full border-2 border-ivory/30 px-7 py-3.5 font-semibold transition-colors hover:border-ivory hover:bg-ivory hover:text-cocoa focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-millet"
           >
-            <a
-              href="#menu"
-              className="group inline-flex items-center gap-2 rounded-full bg-paprika px-7 py-4 font-semibold text-white shadow-xl shadow-paprika/30 transition hover:bg-paprika-dark"
-            >
-              See the menu
-              <FiArrowRight className="transition-transform group-hover:translate-x-1" />
-            </a>
-            <a
-              href={waLink(generalMessage())}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-2 rounded-full border border-ivory/25 px-7 py-4 font-semibold text-ivory transition hover:border-ivory hover:bg-ivory hover:text-cocoa"
-            >
-              <FaWhatsapp className="text-lg" /> Order on WhatsApp
-            </a>
-          </motion.div>
-
-          <motion.dl
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.85, duration: 0.8 }}
-            className="mt-12 grid max-w-md grid-cols-3 gap-6 border-t border-ivory/10 pt-6"
-          >
-            {[
-              [`${MENU.length}`, "dishes"],
-              ["Sundays", "fresh pots"],
-              ["Everyone", "welcome"],
-            ].map(([big, small]) => (
-              <div key={small}>
-                <dt className="font-display text-2xl font-bold text-ivory">{big}</dt>
-                <dd className="text-sm text-ivory/55">{small}</dd>
-              </div>
-            ))}
-          </motion.dl>
-        </motion.div>
-
-        {/* photo collage */}
-        <motion.div style={{ y: photosY }} className="relative mx-auto aspect-[1/1.05] w-full max-w-xl">
-          {PHOTOS.map((p, i) => (
-            <motion.figure
-              key={p.src}
-              className={`absolute overflow-hidden rounded-3xl border-[6px] border-ivory bg-ivory shadow-2xl shadow-black/40 ${p.className}`}
-              initial={{ opacity: 0, y: 60, scale: 0.9 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{ duration: 0.9, delay: 0.25 + i * 0.15, ease }}
-              whileHover={{ scale: 1.04, rotate: 0, zIndex: 50 }}
-            >
-              <img src={p.src} alt={p.alt} className="aspect-[4/5] w-full object-cover" />
-            </motion.figure>
-          ))}
-          <Stamp />
+            See the menu
+          </a>
         </motion.div>
       </div>
     </section>

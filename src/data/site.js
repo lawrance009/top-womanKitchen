@@ -9,7 +9,7 @@ export const SITE = {
   email: "info@topwomankitchen.org",
   address: "Famous Mardo Building, Gönyeli",
   region: "Gönyeli, North Cyprus",
-  serving: "Every Sunday",
+  serving: "Every day, on order",
   mapQuery: "Gönyeli, Cyprus",
   // Paste real profile links here. Empty ones are hidden automatically.
   socials: {

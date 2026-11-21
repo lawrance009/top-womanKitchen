@@ -7,7 +7,7 @@ import { Reveal, SectionHeading } from "./ui.jsx";
 export default function Visit() {
   const rows = [
     { icon: FiMapPin, label: "Where", value: SITE.address },
-    { icon: FiClock, label: "When", value: `${SITE.serving}. Order ahead on WhatsApp.` },
+    { icon: FiClock, label: "When", value: `${SITE.serving}. Order on WhatsApp, then pick it up hot.` },
     { icon: FiPhone, label: "Call", value: SITE.phoneDisplay, href: SITE.phoneHref },
     { icon: FiMail, label: "Email", value: SITE.email, href: `mailto:${SITE.email}` },
   ];

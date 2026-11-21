@@ -1,16 +1,18 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { FiMenu, FiShoppingBag, FiX } from "react-icons/fi";
+import { FiShoppingBag } from "react-icons/fi";
 import { NAV_LINKS } from "../data/site.js";
 import { useOrder } from "../context/OrderContext.jsx";
 
 export function Logo({ light = false }) {
   return (
     <a href="#top" className="group flex items-baseline gap-1.5 leading-none">
-      <span className={`font-display text-2xl font-black tracking-tight ${light ? "text-ivory" : "text-cocoa"}`}>
+      <span className={`font-display text-xl font-black tracking-tight sm:text-2xl ${light ? "text-ivory" : "text-cocoa"}`}>
         TopWoman's
       </span>
-      <span className="font-display text-2xl font-medium italic text-paprika">Kitchen</span>
+      <span className={`font-display text-xl font-medium italic sm:text-2xl ${light ? "text-millet" : "text-paprika"}`}>
+        Kitchen
+      </span>
     </a>
   );
 }
@@ -56,7 +58,7 @@ export default function Navbar() {
         <div className="flex items-center gap-2">
           <button
             onClick={open}
-            className="relative inline-flex items-center gap-2 rounded-full bg-paprika px-4 py-2.5 text-sm font-semibold text-white shadow-lg shadow-paprika/25 transition hover:bg-paprika-dark"
+            className="relative inline-flex items-center gap-2 rounded-full bg-paprika px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-paprika-dark"
           >
             <FiShoppingBag className="text-base" />
             <span className="hidden sm:inline">Your order</span>
@@ -83,7 +85,24 @@ export default function Navbar() {
             aria-label={mobileOpen ? "Close menu" : "Open menu"}
             aria-expanded={mobileOpen}
           >
-            {mobileOpen ? <FiX /> : <FiMenu />}
+            {/* Long, short, long. Turns into an X when the menu is open. */}
+            <span className="relative block h-4 w-6" aria-hidden="true">
+              <span
+                className={`absolute right-0 h-0.5 w-6 rounded-full bg-current transition-transform duration-300 ${
+                  mobileOpen ? "top-[7px] rotate-45" : "top-0"
+                }`}
+              />
+              <span
+                className={`absolute top-[7px] left-0 h-0.5 w-3.5 rounded-full bg-current transition-opacity duration-200 ${
+                  mobileOpen ? "opacity-0" : "opacity-100"
+                }`}
+              />
+              <span
+                className={`absolute right-0 h-0.5 w-6 rounded-full bg-current transition-transform duration-300 ${
+                  mobileOpen ? "top-[7px] -rotate-45" : "top-[14px]"
+                }`}
+              />
+            </span>
           </button>
         </div>
       </nav>

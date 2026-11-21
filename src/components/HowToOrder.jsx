@@ -16,7 +16,7 @@ const STEPS = [
   {
     icon: FiCheckCircle,
     title: "We confirm & cook",
-    text: "We reply with the total and pickup time. Then we cook it fresh for you on Sunday.",
+    text: "We reply with the total and pickup time. Then we cook it fresh for you.",
   },
 ];
 

@@ -5,7 +5,7 @@ export function waLink(text) {
 }
 
 export function generalMessage() {
-  return `Hello ${SITE.name} 👋 I'd like to order. What's cooking this Sunday?`;
+  return `Hello ${SITE.name} 👋 I'd like to order.`;
 }
 
 // lines: [{ name, qty }]

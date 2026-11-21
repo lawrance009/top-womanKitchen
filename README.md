@@ -20,7 +20,7 @@ npm run build    # production files go to dist/
 | How ordering works | Pick → send on WhatsApp → we confirm & cook |
 | Our story | About TopWoman |
 | Events | Sorts itself: future dates show as **Upcoming**, old ones move to **Past gatherings** |
-| Visit | Address, Sundays, phone, email, map |
+| Visit | Address, hours, phone, email, map |
 | Order drawer | The cart. Builds one WhatsApp message with every dish + name + notes. Saved on the device |
 
 ## Editing content (no React knowledge needed)
